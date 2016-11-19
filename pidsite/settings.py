@@ -83,12 +83,12 @@ WSGI_APPLICATION = 'pidsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pidfaesa',
         'USER': 'pidfaesa',
         'PASSWORD': 'pidfaesa',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        #'HOST': 'localhost',
+        #'PORT': '5432',
     }
 }
 
