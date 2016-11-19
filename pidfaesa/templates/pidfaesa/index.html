@@ -1,0 +1,74 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<style>
+.div_cursos{
+	width: 95%;
+	max-width: 360px;
+	margin-left: 1%;
+}
+table{
+	font-size: 10pt;
+}
+table td{
+	vertical-align: middle;
+}
+.table_cursos{
+	text-align: center;
+	background: #6699ff;
+	color: white;
+	/*border: 1px solid black;*/
+}
+.table_turmas{
+	text-align: center;
+	margin: 0;
+	vertical-align: bottom;
+}
+a{
+	font-size: 11pt;
+}
+.titulo{
+	margin-left: 1%;
+	color: #000066;
+}
+</style>
+
+<h3 class="titulo">Bem vindo!</h3>
+<br>
+<p>O <strong>PID - FAESA</strong> oferece cursos gratuitos em informática à comunidade, com o intuito de viabilizar o acesso a tecnologia e a informação à todos.</p>
+
+{% if cursos_ativos %}
+<p>Faça sua inscrição em uma das turmas abaixo e a FAESA entrará em contato para confirmar sua inscrição!</p>
+<br>
+
+	<div class="div_cursos">
+	{% for curso in cursos_ativos %}
+		{% if curso.turma_set.count > 0 %}	
+			<table class="table table-condensed table_cursos">
+				<tr><td>Curso: {{curso.ds_nome}} <br> Local: {{curso.ds_local}}</td></tr>			
+				{% if turmas_ativas %}
+					{% for turma in turmas_ativas %}
+						{% if turma.curso.id == curso.id %}
+						<tr><td colspan="2">
+							<table class="table table-condensed table_turmas">
+								<tr><td><b>Turma: {{ turma.ds_nome }}</b></td></tr>
+								<tr><td>De {{ turma.imprime_data_turma }} - {{ turma.imprime_hora_turma }}</td></tr>
+								<!-- <tr><td>Hora: {{ turma.imprime_hora_turma }}</td></tr> -->
+								<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/aluno">Clique aqui para fazer sua inscrição</a><i><br>(restam {{turma.no_vagas_restantes}} vagas)</i></td></tr>
+								<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/voluntario">Quero ser instrutor voluntário</a></td></tr>
+							</table>
+						</td></tr>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					<p class="p_sem_dados">Sem turmas ativas.</p>
+				{% endif %}
+			</table>
+		{% endif %}
+	{% endfor %}
+	</div>
+
+{% else %}
+	<p class="p_sem_dados">Sem cursos ativos no momento.</p>
+{% endif %}
+<br>

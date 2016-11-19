@@ -1,0 +1,29 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<style>
+.titulo{
+	margin-left: 1%;
+	color: #000066;
+}
+</style>
+
+<div class="div_conteudo">
+
+<h3 class="titulo">Sobre os cursos</h3>
+<br>
+
+{% if cursos_ativos %}
+	{% for curso in cursos_ativos %}		
+		<h3>Curso: {{curso.ds_nome}}</h3>
+		<h4>Local: {{curso.ds_local}}</h4>
+		<h5 style="line-height:20px">{{curso.ds_descricao}}</h5>
+		<br>
+	{% endfor %}
+	</div>
+{% else %}
+	<p><i>Sem cursos ativos.</i></p>
+{% endif %}
+<br>
+
+</div>

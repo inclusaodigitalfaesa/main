@@ -1,0 +1,29 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<style>
+.table_cursos{
+	width: 95%;
+	max-width: 400px;
+}
+.table_cursos tr {
+	font-weight: normal;
+}
+</style>
+
+<h3>Presença de Alunos</h3>
+<h4>Escolha a turma:</h4>
+<br>
+
+{% if turmas_ativas %}
+	{% for turma in turmas_ativas %}
+		<p>
+			<a href="turma/{{ turma.id }}">{{ turma.curso }} - {{ turma }}</a><br>
+			{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }} - {{ turma.no_vagas_preenchidas }} alunos
+		</p>
+		<br>
+	{% endfor %}
+{% else %}
+	<p class="p_sem_dados">Sem turmas ativas.</p>
+{% endif %}
+<br><br>

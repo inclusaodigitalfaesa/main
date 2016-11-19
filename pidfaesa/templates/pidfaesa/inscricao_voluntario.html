@@ -1,0 +1,26 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<style>
+.table_cursos{
+	width: 95%;
+	max-width: 400px;
+}
+.table_cursos tr {
+	font-weight: normal;
+}
+</style>
+
+<h3>Inscrição de Voluntário</h3>
+<br>
+<h4>Preencha os seus dados.</h4>
+<br>
+
+<form action="/curso/{{curso.id}}/turma/{{turma.id}}/inscricao/voluntario/" method="post">
+    {% csrf_token %}
+    <table class="table-condensed table_cursos">
+    {{ form }}
+	</table>
+    <input type="submit" value="Enviar Inscrição"/>
+</form>
+

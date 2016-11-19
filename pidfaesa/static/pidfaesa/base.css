@@ -1,0 +1,14 @@
+body{
+	margin: auto;
+	width: 99%;
+}
+.div_conteudo{
+	width: 99%;
+	max-width: 400px;
+}
+.center {
+	text-align: center;
+}
+.p_sem_dados {
+	font-style: italic;
+}

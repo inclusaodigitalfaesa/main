@@ -1,0 +1,62 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<style>
+.div_lista th, td {
+	width: 95%;
+	max-width: 350px;
+	border: 1px solid black;
+	padding: 4px;
+}
+.table_data_hora {
+
+}
+</style>
+
+<script>
+$(document).ready(function() {
+	$("input[type='checkbox']").click(function(){
+		var input_lista = $('#id_lista_presentes');
+		var id_voluntario = $(this).val() + ';';
+		if(this.checked) {
+        	input_lista.val(input_lista.val() + id_voluntario );
+    	}else{
+    		input_lista.val(input_lista.val().replace(id_voluntario,''));
+    	}
+	});
+});
+</script>
+
+<div class="div_conteudo">
+
+<h3>Registro de Presença</h3>
+<h4>{{ turma.curso }} - {{ turma }}</h4>
+<h5>{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }} - {{ turma.no_vagas_preenchidas }} voluntários</h5>
+<br>
+
+{% if voluntarios %}
+	<table class="table_lista">
+		<tr class="center">
+			<td><b>Voluntário</b></td>
+			<td><b>Presente?</b></td>
+		</tr>
+		{% for voluntario in voluntarios %}
+		<tr>			
+			<td>{{ voluntario.ds_nome }}</td>			
+			<td class="center"><input type="checkbox" value="{{ voluntario.id }}"></input></td>
+		</tr>
+		{% endfor %}
+	</table>
+{% else %}
+	<p class="p_sem_dados">Sem voluntários nesta turma.</p>
+{% endif %}
+<br>
+
+<h4>Confirme a data e a carga horária:</h4>
+<form action="/presenca/voluntario/turma/{{ turma.id }}/" method="post">
+    {% csrf_token %}    
+    {{ form.as_p }}
+    <input type="submit" value="Salvar" />
+</form>
+
+</div>

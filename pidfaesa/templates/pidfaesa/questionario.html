@@ -1,0 +1,67 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<style>
+	.form-group, .list-group {max-width: 400px; width: 99%;}
+</style>
+
+<script>
+$(document).ready(function() {
+	$(".list-group-item").click(function(){
+		$(this).parent().children('a').removeClass("active");
+		$(this).toggleClass("active");
+
+		var id_pergunta = $(this).parent().parent().find(".pergunta").val();
+		var id_reposta = $(this).prev().val();
+		var resposta_pergunta = id_pergunta + '-' + id_reposta + ';';
+		
+		$(this).parent().parent().find(".resposta_pergunta").val(resposta_pergunta);
+	});
+});
+
+function valida(){
+	var ok = true;
+	$("#id_lista_respostas").val("");
+	$('.resposta_pergunta').each(function() {
+		if (!$(this).val()){
+			alert('A pergunta ' + $(this).attr('id') + ' não foi respondida.');
+			ok = false;
+			$('html, body').animate({ scrollTop: $(this).parent().offset().top}, 1000);
+			return false;
+		}else{
+			$("#id_lista_respostas").val($("#id_lista_respostas").val() + $(this).val());
+		}
+	});	
+	if (ok){
+		var form = $("#form");
+		form.submit();
+	}
+}
+</script>
+
+<h3>{{ questionario.ds_titulo }}</h3>
+<br>
+<h4>{{ questionario.ds_descricao }}</h4>
+<br>
+
+{% if questionario %}
+	{% for pergunta in questionario.pergunta_set.all %}
+		<div class="form-group">
+			<input type="hidden" class="resposta_pergunta" id="{{pergunta.no_ordem}}"/>
+			<input type="hidden" value="{{ pergunta.id }}" class="pergunta"/>
+			<label for="pergunta">{{ pergunta.no_ordem }}) {{ pergunta.ds_descricao }}</label>
+			<div class="list-group" id="pergunta1">
+				{% for resposta in pergunta.resposta_set.all %}
+					<input type="hidden" value="{{ resposta.id }}" class="resposta"/>
+					<a class="list-group-item">{{ resposta.ds_descricao }}</a>
+				{% endfor %}
+			</div>
+		</div>
+	{% endfor %}
+{% endif %}
+
+<form action="/questionario/{{questionario.id}}/aluno/{{aluno.id}}/" method="post" id="form">
+    {% csrf_token %}    
+    {{ form }}
+    <input type="button" class="btn btn-default" value="Continuar" onclick="valida()"/>
+</form>
