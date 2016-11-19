@@ -81,14 +81,32 @@ WSGI_APPLICATION = 'pidsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# DEV
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'pidfaesa',
+#         'USER': 'pidfaesa',
+#         'PASSWORD': 'pidfaesa',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'inclusaodigitalfaesa_pidfaesa',
+#         'USER': 'inclusaodigitalfaesa',
+#         'PASSWORD': '!InclusaoParaTodos#',
+#         'HOST': 'postgresql.alwaysdata.com'
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pidfaesa',
-        'USER': 'pidfaesa',
-        'PASSWORD': 'pidfaesa',
-        #'HOST': 'localhost',
-        #'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -132,3 +150,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 #PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 #STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+#STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
