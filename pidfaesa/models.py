@@ -38,6 +38,10 @@ class Curso(models.Model):
     def __str__(self):
         return self.ds_nome
 
+    def total_turmas(self):
+        quant = Turma.objects.filter(curso__id=self.id).count()
+        return (quant)
+
 @python_2_unicode_compatible
 class Turma(models.Model):
     hora_ini_padrao = datetime.time(8,0,0)

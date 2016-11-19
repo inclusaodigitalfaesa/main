@@ -7,6 +7,10 @@ class AlunoForm(forms.ModelForm):
 	class Meta:
 		model = Aluno
 		fields = ['ds_nome', 'dt_nasc', 'ds_telefone', 'ds_email']
+		fields_names = {
+			'ds_nome': 'Nome completo',
+			'ds_email': 'Email (opcional)',
+		}
 		widgets = {	'ds_telefone': forms.NumberInput, }
 
 class VoluntarioForm(forms.ModelForm):

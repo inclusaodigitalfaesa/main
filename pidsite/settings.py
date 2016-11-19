@@ -12,22 +12,14 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
-#import mimetypes
-#mimetypes.add_type("image/svg+xml", ".svg", True)
-#mimetypes.add_type("image/svg+xml", ".svgz", True)
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'nes!jv4yp$to^8q6x+m+sszfvm4egxn8)z8@xo3t$m9crj@-93'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -81,7 +73,7 @@ WSGI_APPLICATION = 'pidsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-# DEV
+# DEV OLD
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
@@ -93,23 +85,12 @@ WSGI_APPLICATION = 'pidsite.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'inclusaodigitalfaesa_pidfaesa',
-#         'USER': 'inclusaodigitalfaesa',
-#         'PASSWORD': '!InclusaoParaTodos#',
-#         'HOST': 'postgresql.alwaysdata.com'
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -148,8 +129,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-#PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-#STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
-#STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

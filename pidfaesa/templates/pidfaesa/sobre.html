@@ -16,7 +16,8 @@
 {% if cursos_ativos %}
 	{% for curso in cursos_ativos %}		
 		<h3>Curso: {{curso.ds_nome}}</h3>
-		<h4>Local: {{curso.ds_local}}</h4>
+		<h4>Local: {{curso.ds_local}}
+		<small>Total de turmas: {{curso.total_turmas}}</small></h4>
 		<h5 style="line-height:20px">{{curso.ds_descricao}}</h5>
 		<br>
 	{% endfor %}
