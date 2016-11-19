@@ -40,7 +40,7 @@ a{
 {% if cursos_ativos %}
 <p>Faça sua inscrição em uma das turmas abaixo e a FAESA entrará em contato para confirmar sua inscrição!</p>
 <br>
-{% if !turmas_ativas %}<p class="p_sem_dados">Sem turmas ativas.</p>{% endif %}
+{% if not turmas_ativas %}<p class="p_sem_dados">Sem turmas ativas.</p>{% endif %}
 
 	<div class="div_cursos">
 	{% for curso in cursos_ativos %}

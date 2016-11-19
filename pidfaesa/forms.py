@@ -7,7 +7,7 @@ class AlunoForm(forms.ModelForm):
 	class Meta:
 		model = Aluno
 		fields = ['ds_nome', 'dt_nasc', 'ds_telefone', 'ds_email']
-		fields_names = {
+		labels = {
 			'ds_nome': 'Nome completo',
 			'ds_email': 'Email (opcional)',
 		}
