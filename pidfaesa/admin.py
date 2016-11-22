@@ -41,7 +41,7 @@ class RespostaInline(admin.StackedInline):
 
 class PerguntaAdmin(admin.ModelAdmin):
     list_display = ('ds_descricao', 'no_ordem')
-    list_filter = ('questionario',)
+    list_filter = ('questionario', )
 
     ordering = ['questionario', 'no_ordem']
 

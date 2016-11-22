@@ -61,7 +61,7 @@ function valida(){
 {% endif %}
 
 <form action="/questionario/{{questionario.id}}/aluno/{{aluno.id}}/" method="post" id="form">
-    {% csrf_token %}    
-    {{ form }}
-    <input type="button" class="btn btn-default" value="Continuar" onclick="valida()"/>
+	{% csrf_token %}
+	{{ form }}
+	<input type="button" class="btn btn-default" value="Finalizar" onclick="valida()"/>
 </form>

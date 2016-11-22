@@ -126,7 +126,7 @@ def presenca_aluno(request):
 @permission_required('pidfaesa.add_presencaaluno', raise_exception=True)
 def presenca_aluno_turma(request, turma_id):
 	turma = Turma.objects.get(pk=turma_id)
-	alunos = Aluno.objects.filter(turma__id=turma_id)
+	alunos = Aluno.objects.filter(turma__id=turma_id).order_by('ds_nome')
 
 	if request.method == 'POST':
 		form = PresencaAlunoForm(request.POST)
@@ -163,7 +163,7 @@ def presenca_voluntario(request):
 @permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
 def presenca_voluntario_turma(request, turma_id):
 	turma = Turma.objects.get(pk=turma_id)
-	voluntarios = Voluntario.objects.filter(turma__id=turma_id)
+	voluntarios = Voluntario.objects.filter(turma__id=turma_id).order_by('ds_nome')
 
 	if request.method == 'POST':
 		form = PresencaVoluntarioForm(request.POST)
