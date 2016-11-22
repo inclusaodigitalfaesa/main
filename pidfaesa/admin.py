@@ -23,8 +23,8 @@ class AlunoAdmin(admin.ModelAdmin):
 admin.site.register(Aluno, AlunoAdmin)
 
 class VoluntarioAdmin(admin.ModelAdmin):
-    list_display = ('ds_nome', 'turma')
-    list_filter = ('escola',)
+    list_display = ('ds_nome', 'ds_telefone', 'ds_email')
+    list_filter = ('turma', 'escola', 'curso')
 admin.site.register(Voluntario, VoluntarioAdmin)
 
 class EscolaVoluntarioAdmin(admin.ModelAdmin):

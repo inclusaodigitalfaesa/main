@@ -19,7 +19,7 @@
 	{% for turma in turmas_ativas %}
 		<p>
 			<a href="turma/{{ turma.id }}">{{ turma.curso }} - {{ turma }}</a><br>
-			{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }} - {{ turma.no_voluntarios }} voluntários
+			{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }}<br>{{ turma.no_voluntarios }} voluntários
 		</p>
 		<br>
 	{% endfor %}

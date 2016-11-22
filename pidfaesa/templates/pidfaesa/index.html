@@ -31,49 +31,51 @@ a{
 	margin-left: 1%;
 	color: #000066;
 }
+.td_sem_dados{
+	background-color: white;
+	color: black;
+	font-style: italic;
+}
 </style>
 
 <h3 class="titulo">Bem vindo!</h3>
 <br>
 <p>O <strong>PID - FAESA</strong> oferece cursos gratuitos em informática à comunidade, com o intuito de viabilizar o acesso a tecnologia e a informação à todos.</p>
 
-{% if cursos_ativos %}
-<p>Faça sua inscrição em uma das turmas abaixo e a FAESA entrará em contato para confirmar sua inscrição!</p>
-<br>
-{% if not turmas_ativas %}<p class="p_sem_dados">Sem turmas ativas.</p>{% endif %}
-
-	<div class="div_cursos">
-	{% for curso in cursos_ativos %}
-		{% if curso.turma_set.count > 0 %}	
-			<table class="table table-condensed table_cursos">
-				<tr><td>Curso: {{curso.ds_nome}} <br> Local: {{curso.ds_local}}</td></tr>			
-				{% if turmas_ativas %}
-					{% for turma in turmas_ativas %}
-						{% if turma.curso.id == curso.id %}
-						<tr><td colspan="2">
-							<table class="table table-condensed table_turmas">
-								<tr><td>
-									<b>Turma: {{ turma.ds_nome }}</b><br>
-									<i>{{ turma.ds_descricao }}</i>
-								</td></tr>
-								<tr><td>De {{ turma.imprime_data_turma }} - {{ turma.imprime_hora_turma }}</td></tr>
-								<!-- <tr><td>Hora: {{ turma.imprime_hora_turma }}</td></tr> -->
-								<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/aluno">Clique aqui para fazer sua inscrição</a><i><br>(restam {{turma.no_vagas_restantes}} vagas)</i></td></tr>
-								<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/voluntario">Quero ser instrutor voluntário</a></td></tr>
-							</table>
-						</td></tr>
-						{% endif %}
-					{% endfor %}
-				{% else %}
-					<p class="p_sem_dados">Sem turmas ativas.</p>
-				{% endif %}
-
-			</table>
-		{% endif %}
-	{% endfor %}
-	</div>
-
-{% else %}
+{% if not cursos_ativos %}
 	<p class="p_sem_dados">Sem cursos ativos.</p>
+{% else %}
+	<p>Faça sua inscrição em uma das turmas abaixo e a FAESA entrará em contato para confirmar sua inscrição!</p><br>
+	
+		<div class="div_cursos">
+		{% for curso in cursos_ativos %}
+				
+				<table class="table table-condensed table_cursos">
+					<tr><td>Curso: {{curso.ds_nome}} <br> Local: {{curso.ds_local}}</td></tr>			
+					
+					{% if curso.get_turmas_ativas %}
+						{% for turma in curso.get_turmas_ativas %}							
+							<tr><td colspan="2">
+								<table class="table table-condensed table_turmas">
+									<tr><td>
+										<b>Turma: {{ turma.ds_nome }}</b><br>
+										<i>{{ turma.ds_descricao }}</i>
+									</td></tr>
+									<tr><td>De {{ turma.imprime_data_turma }} - {{ turma.imprime_hora_turma }}</td></tr>
+									<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/aluno">Clique aqui para fazer sua inscrição</a><i><br>(restam {{turma.no_vagas_restantes}} vagas)</i></td></tr>
+									<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/voluntario">Quero ser instrutor voluntário</a></td></tr>
+								</table>
+							</td></tr>							
+						{% endfor %}
+					{% else %}
+						<!-- <table class="table table-condensed table_turmas">		 -->
+							<tr><td class="td_sem_dados">Sem turmas ativas para este curso.</td></tr>
+						<!-- </table> -->
+					{% endif %}					
+				</table>
+			
+		{% endfor %}
+		</div>
+	
 {% endif %}
 <br>

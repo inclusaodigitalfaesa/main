@@ -31,7 +31,9 @@ $(document).ready(function() {
 
 <h3>Registro de Presença</h3>
 <h4>{{ turma.curso }} - {{ turma }}</h4>
-<h5>{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }} - {{ turma.no_vagas_preenchidas }} alunos</h5>
+<h5>{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }}
+	<br>{{ turma.no_vagas_preenchidas }} alunos
+</h5>
 <br>
 
 {% if alunos %}

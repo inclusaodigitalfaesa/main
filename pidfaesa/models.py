@@ -38,9 +38,26 @@ class Curso(models.Model):
     def __str__(self):
         return self.ds_nome
 
-    def total_turmas(self):
+    def total_turmas_criadas(self):
         quant = Turma.objects.filter(curso__id=self.id).count()
         return (quant)
+
+    def total_alunos_inscritos(self):
+        turmas_criadas = self.turma_set.all()
+        quant = 0
+        for turma in turmas_criadas:
+            quant += Aluno.objects.filter(turma__id=turma.id).count()
+        return (quant)
+
+    def total_voluntarios_inscritos(self):
+        turmas_criadas = self.turma_set.all()
+        quant = 0
+        for turma in turmas_criadas:
+            quant += Voluntario.objects.filter(turma__id=turma.id).count()
+        return (quant)
+
+    def get_turmas_ativas(self):
+        return self.turma_set.filter(is_ativo=True)
 
 @python_2_unicode_compatible
 class Turma(models.Model):
@@ -115,7 +132,7 @@ class EscolaVoluntario(models.Model):
     dthr_criacao = models.DateTimeField('Data de criacao', auto_now_add=True)
 
     class Meta:
-        ordering = ["pk"]
+        ordering = ["ds_nome"]
         verbose_name = 'Voluntario/Escola disponivel'
         verbose_name_plural = 'Voluntarios/Escolas disponiveis'
 
@@ -130,7 +147,7 @@ class CursoVoluntario(models.Model):
     dthr_criacao = models.DateTimeField('Data de criacao', auto_now_add=True)
 
     class Meta:
-        ordering = ["pk"]
+        ordering = ["ds_nome"]
         verbose_name = 'Voluntario/Curso disponivel'
         verbose_name_plural = 'Voluntarios/Cursos disponiveis'
 
