@@ -1,0 +1,61 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<style>
+.div_lista th, td {
+	width: 95%;
+	max-width: 350px;
+	border: 1px solid black;
+	padding: 4px;
+}
+.table_data_hora {
+
+}
+</style>
+
+<div class="div_conteudo">
+
+<h3>Geração de certificado</h3>
+<h4>{{ turma.curso }} - {{ turma }}</h4>
+<h5>{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }}
+	<br>{{ turma.no_vagas_preenchidas }} alunos e {{ turma.no_voluntarios }} voluntários
+</h5>
+<br>
+
+{% if alunos %}
+	<table class="table_lista">
+		<tr class="center">
+			<td><b>Aluno</b></td>
+			<td><b>Certificado</b></td>
+		</tr>
+		{% for aluno in alunos %}
+		<tr>			
+			<td>{{ aluno.ds_nome }}</td>			
+			<td class="center"><a href="#">{{ aluno.get_total_horas }} horas</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+{% else %}
+	<p class="p_sem_dados">Sem alunos nesta turma.</p>
+{% endif %}
+<br>
+<br>
+{% if voluntarios %}
+	<table class="table_lista">
+		<tr class="center">
+			<td><b>Voluntário</b></td>
+			<td><b>Certificado</b></td>
+		</tr>
+		{% for voluntario in voluntarios %}
+		<tr>			
+			<td>{{ voluntario.ds_nome }}</td>			
+			<td class="center"><a href="#">{{ voluntario.get_total_horas }} horas</a></td>
+		</tr>
+		{% endfor %}
+	</table>
+{% else %}
+	<p class="p_sem_dados">Sem voluntários nesta turma.</p>
+{% endif %}
+<br>
+
+</div>

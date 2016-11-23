@@ -1,0 +1,27 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<div class="div_conteudo">
+
+<h3>Relatório estatístico</h3>
+<h4>{{ turma.curso }} - {{ turma }}</h4>
+<h5>{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }}
+	<br>{{ turma.no_vagas_preenchidas }} alunos
+</h5>
+<br>
+Quant perguntas: {{quant_perguntas}}<br><br>
+{{dados}}<br><br>
+{% if dados %}
+	{% for pergunta in dados %}
+		{{ pergunta.0 }}<br>
+		{% for resposta in pergunta.1 %}
+			{{resposta}}<br>
+		{% endfor %}
+		<br>
+	{% endfor %}
+{% else %}
+	<p class="p_sem_dados">Sem respostas nesta turma.</p>
+{% endif %}
+<br>
+
+</div>

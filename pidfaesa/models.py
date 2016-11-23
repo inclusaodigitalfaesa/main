@@ -113,7 +113,6 @@ class Aluno(models.Model):
     dt_nasc = models.DateField('Data de nascimento')
     ds_telefone = models.CharField('Telefone', max_length=30)
     ds_email = models.EmailField('Email', max_length=200, blank=True)
-    #no_hora_aula_total = models.PositiveSmallIntegerField('Hora aula total', default=0)
     dthr_criacao = models.DateTimeField('Data de criacao', auto_now_add=True)
 
     turma = models.ForeignKey(Turma, models.CASCADE)
@@ -123,6 +122,13 @@ class Aluno(models.Model):
 
     def __str__(self):
         return self.ds_nome
+
+    def get_total_horas(self):
+        presencas = PresencaAluno.objects.filter(aluno__id=self.id)
+        horas = 0
+        for p in presencas:
+            horas += p.no_hora_aula
+        return horas
 
 @python_2_unicode_compatible
 class EscolaVoluntario(models.Model):
@@ -171,6 +177,13 @@ class Voluntario(models.Model):
 
     def __str__(self):
         return self.ds_nome
+
+    def get_total_horas(self):
+        presencas = PresencaVoluntario.objects.filter(voluntario__id=self.id)
+        horas = 0
+        for p in presencas:
+            horas += p.no_hora_aula
+        return horas
 
 @python_2_unicode_compatible
 class Pergunta(models.Model):

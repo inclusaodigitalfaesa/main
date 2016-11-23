@@ -144,7 +144,7 @@ def presenca_aluno_turma(request, turma_id):
 					presenca.aluno = aluno
 					presenca.save()
 
-				return HttpResponse('<p>Registrado com sucesso!</p><br><a href="../../../">Retornar</a>')
+				return HttpResponse('<h4>Registrado com sucesso!<br><a href="../../../">Retornar</a></h4>')
 	else:
 		form = PresencaAlunoForm()
 
@@ -181,7 +181,7 @@ def presenca_voluntario_turma(request, turma_id):
 					presenca.voluntario = voluntario
 					presenca.save()
 
-				return HttpResponse('<p>Registrado com sucesso!</p><br><a href="../../../">Retornar</a>')
+				return HttpResponse('<h4>Registrado com sucesso!<br><a href="../../../">Retornar</a></h4>')
 	else:
 		form = PresencaVoluntarioForm()
 
@@ -194,5 +194,76 @@ def sobre(request):
 	context = {'cursos_ativos': cursos_ativos}
 	return render(request, 'pidfaesa/sobre.html', context)
 
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def relatorio(request):
+	turmas_ativas = Turma.objects.filter(is_ativo=True)
+
+	context = {'turmas_ativas': turmas_ativas}
+	return render(request, 'pidfaesa/relatorio.html', context)
+
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def relatorio_turma(request, turma_id):
+	turma = Turma.objects.get(pk=turma_id)
+	alunos = Aluno.objects.filter(turma__id=turma_id)
+	arpqs = Alun_Resp_Perg_Ques.objects.filter(aluno__in=alunos, pergunta__id=1)
+
+	curso = Curso.objects.get(pk=turma.curso.id)
+	questionario = Questionario.objects.get(pk=curso.questionario.id)
+	pergunta_questionario = Pergunta.objects.filter(questionario__id=questionario.id).order_by('no_ordem')
+	quant_perguntas = pergunta_questionario.count()
+
+	dados = list()
+	for p in pergunta_questionario:
+		a = list()
+		a.append(p)
+		respostas = Resposta.objects.filter(pergunta__id=p.id).order_by('no_ordem')		
+		b = list()				
+		for r in respostas:
+			c = list()
+			count = Alun_Resp_Perg_Ques.objects.filter(pergunta__id=p.id, resposta__id=r.id).count()
+			if count > 0:								
+				c.append(r.ds_descricao)
+				c.append(count)
+				b.append(c)
+		a.append(b)
+		dados.append(a)
+
+	context = {'turma': turma, 'arpqs': arpqs, 'dados': dados, 'quant_perguntas': quant_perguntas}
+	return render(request, 'pidfaesa/relatorio_turma.html', context)
+
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
 def certificado(request):
-	return render(request, 'pidfaesa/certificado.html')
+	turmas_ativas = Turma.objects.filter(is_ativo=True)
+
+	context = {'turmas_ativas': turmas_ativas}
+	return render(request, 'pidfaesa/certificado.html', context)
+
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def certificado_turma(request, turma_id):
+	turma = Turma.objects.get(pk=turma_id)
+	alunos = Aluno.objects.filter(turma__id=turma_id).order_by('ds_nome')
+	voluntarios = Voluntario.objects.filter(turma__id=turma_id).order_by('ds_nome')
+
+	context = {'turma': turma, 'alunos': alunos, 'voluntarios': voluntarios}
+	return render(request, 'pidfaesa/certificado_turma.html', context)
+
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def visquestionario(request):
+	cursos_ativos = Curso.objects.filter(is_ativo=True)
+
+	context = {'cursos_ativos': cursos_ativos}
+	return render(request, 'pidfaesa/visquestionario.html', context)
+
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def visquestionario_curso(request, curso_id):
+	curso = Curso.objects.get(pk=curso_id)
+	questionario = Questionario.objects.get(pk=curso.questionario.id)
+
+	context = {'curso': curso, 'questionario': questionario}
+	return render(request, 'pidfaesa/visquestionario_curso.html', context)

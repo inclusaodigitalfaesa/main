@@ -45,13 +45,13 @@ a{
 {% if not cursos_ativos %}
 	<p class="p_sem_dados">Sem cursos ativos.</p>
 {% else %}
-	<p>Faça sua inscrição em uma das turmas abaixo e a FAESA entrará em contato para confirmar sua inscrição!</p><br>
+	<p>Faça sua inscrição em uma das turmas abaixo e entraremos em contato para confirmar sua inscrição!</p><br>
 	
 		<div class="div_cursos">
 		{% for curso in cursos_ativos %}
 				
 				<table class="table table-condensed table_cursos">
-					<tr><td>Curso: {{curso.ds_nome}} <br> Local: {{curso.ds_local}}</td></tr>			
+					<tr><td>Curso: {{curso.ds_nome}} <br> Local: {{curso.ds_local}}</td></tr>
 					
 					{% if curso.get_turmas_ativas %}
 						{% for turma in curso.get_turmas_ativas %}							
@@ -68,9 +68,7 @@ a{
 							</td></tr>							
 						{% endfor %}
 					{% else %}
-						<!-- <table class="table table-condensed table_turmas">		 -->
-							<tr><td class="td_sem_dados">Sem turmas ativas para este curso.</td></tr>
-						<!-- </table> -->
+						<tr><td class="td_sem_dados">Sem turmas ativas para este curso.</td></tr>
 					{% endif %}					
 				</table>
 			

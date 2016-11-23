@@ -1,0 +1,23 @@
+{% include "pidfaesa/base.html" %}
+{% include "pidfaesa/menu.html" %}
+
+<div class="div_conteudo">
+
+<h3>Prévia de questionário</h3>
+<h4>Escolha o curso:</h4>
+<br>
+
+{% if cursos_ativos %}
+	{% for curso in cursos_ativos %}
+		<p>
+			<a href="curso/{{ curso.id }}">{{ curso }}</a><br>
+			Questionário: {{ curso.questionario }}<br>
+		</p>
+		<br>
+	{% endfor %}
+{% else %}
+	<p class="p_sem_dados">Sem cursos ativos.</p>
+{% endif %}
+<br><br>
+
+</div>
