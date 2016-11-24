@@ -31,7 +31,7 @@
 		{% for aluno in alunos %}
 		<tr>			
 			<td>{{ aluno.ds_nome }}</td>			
-			<td class="center"><a href="#">{{ aluno.get_total_horas }} horas</a></td>
+			<td class="center"><a href="/certificado/aluno/{{aluno.id}}">{{ aluno.get_total_horas }} horas</a></td>
 		</tr>
 		{% endfor %}
 	</table>
@@ -49,7 +49,7 @@
 		{% for voluntario in voluntarios %}
 		<tr>			
 			<td>{{ voluntario.ds_nome }}</td>			
-			<td class="center"><a href="#">{{ voluntario.get_total_horas }} horas</a></td>
+			<td class="center"><a href="/certificado/voluntario/{{voluntario.id}}">{{ voluntario.get_total_horas }} horas</a></td>
 		</tr>
 		{% endfor %}
 	</table>

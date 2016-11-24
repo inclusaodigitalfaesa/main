@@ -5,6 +5,7 @@ from django.utils import timezone
 from django import forms
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import logout
+from easy_pdf.views import PDFTemplateView
 
 from .models import *
 from .forms import *
@@ -267,3 +268,69 @@ def visquestionario_curso(request, curso_id):
 
 	context = {'curso': curso, 'questionario': questionario}
 	return render(request, 'pidfaesa/visquestionario_curso.html', context)
+
+class CertificadoAlunoView(PDFTemplateView):
+	template_name = "pidfaesa/certificado_aluno.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(CertificadoAlunoView, self).get_context_data(**kwargs)
+
+		aluno_id = int(kwargs['aluno_id'])
+
+		aluno = Aluno.objects.get(pk=aluno_id)
+		turma = Turma.objects.get(pk=aluno.turma.id)
+		curso = Curso.objects.get(pk=turma.curso.id)
+		horas = aluno.get_total_horas
+
+		context['aluno'] = aluno
+		context['turma'] = turma
+		context['curso'] = curso
+		context['horas'] = horas
+		context['pagesize'] = "A4"
+		context['title'] = "Certificado"
+
+		return context
+
+	def render_to_response(self, context, **response_kwargs):
+		response = super(CertificadoAlunoView, self).render_to_response(context, **response_kwargs)
+		
+		aluno = context['aluno']
+		nome_aluno = aluno.ds_nome.upper()
+		
+		response_kwargs.setdefault('content_type', 'application/pdf')
+		response['Content-Disposition'] = 'attachment; filename="CERTIFICADO - ' + nome_aluno +  '.pdf"'
+
+		return response
+
+class CertificadoVoluntarioView(PDFTemplateView):
+	template_name = "pidfaesa/certificado_voluntario.html"
+
+	def get_context_data(self, **kwargs):
+		context = super(CertificadoVoluntarioView, self).get_context_data(**kwargs)
+
+		voluntario_id = int(kwargs['voluntario_id'])
+
+		voluntario = Voluntario.objects.get(pk=voluntario_id)
+		turma = Turma.objects.get(pk=voluntario.turma.id)
+		curso = Curso.objects.get(pk=turma.curso.id)
+		horas = voluntario.get_total_horas
+
+		context['voluntario'] = voluntario
+		context['turma'] = turma
+		context['curso'] = curso
+		context['horas'] = horas
+		context['pagesize'] = "A4"
+		context['title'] = "Certificado"
+
+		return context
+
+	def render_to_response(self, context, **response_kwargs):
+		response = super(CertificadoVoluntarioView, self).render_to_response(context, **response_kwargs)
+		
+		voluntario = context['voluntario']
+		nome_voluntario = voluntario.ds_nome.upper()
+		
+		response_kwargs.setdefault('content_type', 'application/pdf')
+		response['Content-Disposition'] = 'attachment; filename="CERTIFICADO - ' + nome_voluntario +  '.pdf"'
+
+		return response

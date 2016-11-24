@@ -23,4 +23,6 @@ urlpatterns = [
 	url(r'^certificado/turma/(?P<turma_id>[0-9]+)/$', views.certificado_turma, name='certificado_turma'),
 	url(r'^visquestionario/$', views.visquestionario, name='visquestionario'),
 	url(r'^visquestionario/curso/(?P<curso_id>[0-9]+)/$', views.visquestionario_curso, name='visquestionario_curso'),
+	url(r'^certificado/aluno/(?P<aluno_id>[0-9]+)/$', views.CertificadoAlunoView.as_view(), name='certificado_aluno'),
+	url(r'^certificado/voluntario/(?P<voluntario_id>[0-9]+)/$', views.CertificadoVoluntarioView.as_view(), name='certificado_voluntario'),
 ] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
