@@ -1,6 +1,68 @@
 {% include "pidfaesa/base.html" %}
 {% include "pidfaesa/menu.html" %}
 
+<script>
+function retornaTitulo(idInputHidden){
+	dados = $("#"+idInputHidden).val();
+	var obj = eval(dados);
+	var titulo = "";
+
+	for (h=0;h<obj.length;h++){
+		titulo = obj[h][0];
+	}
+	return titulo;
+}
+function retornaRespostasQuants(idInputHidden){
+	dados = $("#"+idInputHidden).val();
+	var obj = eval(dados);
+	var respostas = [];
+
+	for (h=0;h<obj.length;h++){
+		for (i=1;i<obj[0].length;i++){			
+			for(j=0;j<obj[0][i].length;j++){				
+				/*for (k=0;k<obj[0][i][j].length;k++){
+					try {
+						alert(typeof(obj[0][i][j][k]));
+						obj[0][i][j][k] = Number(obj[0][i][j][k]);
+					} catch (e) {
+						obj[0][i][j][k] = obj[0][i][j][k];
+					}
+				}*/
+				respostas[j]=obj[0][i][j];
+			}		
+		}
+	}
+	return respostas;
+}
+</script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+ 
+function drawChart() {
+	titulo = retornaTitulo("pergunta1");
+	respostasQuants = retornaRespostasQuants("pergunta1");
+
+	var dados=[];
+	dados[0]=['Resposta', 'Quantidade'];
+	for (i=0;i<respostasQuants.length;i++){
+		dados[i+1]=respostasQuants[i];
+	}
+	
+	var data = google.visualization.arrayToDataTable(dados);
+
+	var options = {
+	  title: titulo
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+	chart.draw(data, options);
+}
+</script>
+
 <div class="div_conteudo">
 
 <h3>Relatório estatístico</h3>
@@ -9,8 +71,18 @@
 	<br>{{ turma.no_vagas_preenchidas }} alunos
 </h5>
 <br>
+
 Quant perguntas: {{quant_perguntas}}<br><br>
+
 {{dados}}<br><br>
+
+<input type="button" onclick='retornaTitulo();' value="Teste"></input>
+
+<input type="text" value='{{dados}}' id="pergunta1"></input>
+
+<div id="piechart" style="width: 400px; height: 500px;"></div>
+
+<!--
 {% if dados %}
 	{% for pergunta in dados %}
 		{{ pergunta.0 }}<br>
@@ -23,5 +95,5 @@ Quant perguntas: {{quant_perguntas}}<br><br>
 	<p class="p_sem_dados">Sem respostas nesta turma.</p>
 {% endif %}
 <br>
-
+-->
 </div>

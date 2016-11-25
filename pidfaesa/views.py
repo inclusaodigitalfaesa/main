@@ -218,14 +218,14 @@ def relatorio_turma(request, turma_id):
 	dados = list()
 	for p in pergunta_questionario:
 		a = list()
-		a.append(p)
+		a.append(str(p.ds_descricao))
 		respostas = Resposta.objects.filter(pergunta__id=p.id).order_by('no_ordem')		
 		b = list()				
 		for r in respostas:
 			c = list()
 			count = Alun_Resp_Perg_Ques.objects.filter(pergunta__id=p.id, resposta__id=r.id).count()
 			if count > 0:								
-				c.append(r.ds_descricao)
+				c.append('Teste'+str(count))
 				c.append(count)
 				b.append(c)
 		a.append(b)
@@ -251,23 +251,6 @@ def certificado_turma(request, turma_id):
 
 	context = {'turma': turma, 'alunos': alunos, 'voluntarios': voluntarios}
 	return render(request, 'pidfaesa/certificado_turma.html', context)
-
-@login_required
-@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
-def visquestionario(request):
-	cursos_ativos = Curso.objects.filter(is_ativo=True)
-
-	context = {'cursos_ativos': cursos_ativos}
-	return render(request, 'pidfaesa/visquestionario.html', context)
-
-@login_required
-@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
-def visquestionario_curso(request, curso_id):
-	curso = Curso.objects.get(pk=curso_id)
-	questionario = Questionario.objects.get(pk=curso.questionario.id)
-
-	context = {'curso': curso, 'questionario': questionario}
-	return render(request, 'pidfaesa/visquestionario_curso.html', context)
 
 class CertificadoAlunoView(PDFTemplateView):
 	template_name = "pidfaesa/certificado_aluno.html"
@@ -334,3 +317,25 @@ class CertificadoVoluntarioView(PDFTemplateView):
 		response['Content-Disposition'] = 'attachment; filename="CERTIFICADO - ' + nome_voluntario +  '.pdf"'
 
 		return response
+
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def visquestionario(request):
+	cursos_ativos = Curso.objects.filter(is_ativo=True)
+
+	context = {'cursos_ativos': cursos_ativos}
+	return render(request, 'pidfaesa/visquestionario.html', context)
+
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def visquestionario_curso(request, curso_id):
+	curso = Curso.objects.get(pk=curso_id)
+	questionario = Questionario.objects.get(pk=curso.questionario.id)
+
+	context = {'curso': curso, 'questionario': questionario}
+	return render(request, 'pidfaesa/visquestionario_curso.html', context)
+
+
+
+
+
