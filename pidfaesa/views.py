@@ -328,7 +328,7 @@ def relatorio_turma(request, turma_id):
 			c = list()
 			count = Alun_Resp_Perg_Ques.objects.filter(pergunta__id=p.id, resposta__id=r.id).count()
 			if count > 0:
-				c.append(r.ds_descricao)
+				c.append(str(r.ds_descricao))
 				c.append('Teste'+str(random.choice(string.letters)))
 				c.append(count)
 				b.append(c)
