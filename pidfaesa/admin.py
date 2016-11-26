@@ -65,7 +65,7 @@ admin.site.register(Resposta, RespostaAdmin)
 
 class Alun_Resp_Perg_QuesAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'dthr_criacao')
-    list_filter = ('aluno', 'dthr_criacao', )
+    list_filter = ('aluno', 'dthr_criacao', 'questionario', )
 admin.site.register(Alun_Resp_Perg_Ques, Alun_Resp_Perg_QuesAdmin)
 
 class PresencaAlunoAdmin(admin.ModelAdmin):

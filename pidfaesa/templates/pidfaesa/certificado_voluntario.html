@@ -1,5 +1,5 @@
 {% extends "easy_pdf/base.html" %}
-
+{% load static %}
 {% block extra_style %}
 
 <style>
@@ -17,8 +17,8 @@
 }
 
 #titulo{
-	padding-top: 160px;
-	font-size: 30px;
+	padding-top: 120px;
+	font-size: 34px;
 	margin: 0 auto;
 	border-style: solid;
     border-width: 1px 1px 0px 1px;
@@ -37,13 +37,24 @@
 
 #assinatura{
 	padding-top: 100px;
-	padding-bottom: 100px;
+	padding-bottom: 50px;
 	font-size: 18px;
+	margin: 0 auto;
+	border-style: solid;
+	border-width: 0px 1px 0px 1px;
+	text-align: center;
+}
+
+#rodape{
+	padding-top: 10px;
+	padding-bottom: 20px;
+	font-size: 16px;
 	margin: 0 auto;
 	border-style: solid;
 	border-width: 0px 1px 1px 1px;
 	text-align: center;
 }
+
 </style>
 
 {% endblock %}
@@ -57,6 +68,7 @@
 
 	<div id="assinatura">_____________________________________<br>
 						 Prof. Me. Renata Laranja Cristina Leite</div>
-
+	
+	<div id="rodape">Vitória, 26 de novembro de 2016.</div>
 </div>
 {% endblock %}

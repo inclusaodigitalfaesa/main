@@ -1,3 +1,6 @@
+#from __future__ import unicode_literals
+
+import string, random
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -197,45 +200,6 @@ def sobre(request):
 
 @login_required
 @permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
-def relatorio(request):
-	turmas_ativas = Turma.objects.filter(is_ativo=True)
-
-	context = {'turmas_ativas': turmas_ativas}
-	return render(request, 'pidfaesa/relatorio.html', context)
-
-@login_required
-@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
-def relatorio_turma(request, turma_id):
-	turma = Turma.objects.get(pk=turma_id)
-	alunos = Aluno.objects.filter(turma__id=turma_id)
-	arpqs = Alun_Resp_Perg_Ques.objects.filter(aluno__in=alunos, pergunta__id=1)
-
-	curso = Curso.objects.get(pk=turma.curso.id)
-	questionario = Questionario.objects.get(pk=curso.questionario.id)
-	pergunta_questionario = Pergunta.objects.filter(questionario__id=questionario.id).order_by('no_ordem')
-	quant_perguntas = pergunta_questionario.count()
-
-	dados = list()
-	for p in pergunta_questionario:
-		a = list()
-		a.append(str(p.ds_descricao))
-		respostas = Resposta.objects.filter(pergunta__id=p.id).order_by('no_ordem')		
-		b = list()				
-		for r in respostas:
-			c = list()
-			count = Alun_Resp_Perg_Ques.objects.filter(pergunta__id=p.id, resposta__id=r.id).count()
-			if count > 0:								
-				c.append('Teste'+str(count))
-				c.append(count)
-				b.append(c)
-		a.append(b)
-		dados.append(a)
-
-	context = {'turma': turma, 'arpqs': arpqs, 'dados': dados, 'quant_perguntas': quant_perguntas}
-	return render(request, 'pidfaesa/relatorio_turma.html', context)
-
-@login_required
-@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
 def certificado(request):
 	turmas_ativas = Turma.objects.filter(is_ativo=True)
 
@@ -335,7 +299,43 @@ def visquestionario_curso(request, curso_id):
 	context = {'curso': curso, 'questionario': questionario}
 	return render(request, 'pidfaesa/visquestionario_curso.html', context)
 
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def relatorio(request):
+	turmas_ativas = Turma.objects.filter(is_ativo=True)
 
+	context = {'turmas_ativas': turmas_ativas}
+	return render(request, 'pidfaesa/relatorio.html', context)
 
+@login_required
+@permission_required('pidfaesa.add_presencavoluntario', raise_exception=True)
+def relatorio_turma(request, turma_id):
+	turma = Turma.objects.get(pk=turma_id)
+	alunos = Aluno.objects.filter(turma__id=turma_id)
+	arpqs = Alun_Resp_Perg_Ques.objects.filter(aluno__in=alunos, pergunta__id=1)
 
+	curso = Curso.objects.get(pk=turma.curso.id)
+	questionario = Questionario.objects.get(pk=curso.questionario.id)
+	pergunta_questionario = Pergunta.objects.filter(questionario__id=questionario.id).order_by('no_ordem')
+	quant_perguntas = pergunta_questionario.count()
 
+	dados = list()
+	for p in pergunta_questionario:
+		a = list()
+		#a.append(str(p.ds_descricao))
+		a.append(str(random.choice(string.letters)))
+		respostas = Resposta.objects.filter(pergunta__id=p.id).order_by('no_ordem')		
+		b = list()				
+		for r in respostas:
+			c = list()
+			count = Alun_Resp_Perg_Ques.objects.filter(pergunta__id=p.id, resposta__id=r.id).count()
+			if count > 0:								
+				c.append('Teste'+str(random.choice(string.letters)))
+				#c.append(r.ds_descricao)
+				c.append(count)
+				b.append(c)
+		a.append(b)
+		dados.append(a)
+
+	context = {'turma': turma, 'dados': dados, 'quant_perguntas': quant_perguntas}
+	return render(request, 'pidfaesa/relatorio_turma.html', context)

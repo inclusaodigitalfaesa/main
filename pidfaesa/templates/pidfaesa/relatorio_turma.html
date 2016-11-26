@@ -2,34 +2,17 @@
 {% include "pidfaesa/menu.html" %}
 
 <script>
-function retornaTitulo(idInputHidden){
-	dados = $("#"+idInputHidden).val();
-	var obj = eval(dados);
+function retornaTitulo(obj, index){
 	var titulo = "";
-
-	for (h=0;h<obj.length;h++){
-		titulo = obj[h][0];
-	}
+	titulo = obj[index][0];
 	return titulo;
 }
-function retornaRespostasQuants(idInputHidden){
-	dados = $("#"+idInputHidden).val();
-	var obj = eval(dados);
+function retornaRespostasQuants(obj, index){
 	var respostas = [];
 
-	for (h=0;h<obj.length;h++){
-		for (i=1;i<obj[0].length;i++){			
-			for(j=0;j<obj[0][i].length;j++){				
-				/*for (k=0;k<obj[0][i][j].length;k++){
-					try {
-						alert(typeof(obj[0][i][j][k]));
-						obj[0][i][j][k] = Number(obj[0][i][j][k]);
-					} catch (e) {
-						obj[0][i][j][k] = obj[0][i][j][k];
-					}
-				}*/
-				respostas[j]=obj[0][i][j];
-			}		
+	for (i=1;i<obj[index].length;i++){
+		for(j=0;j<obj[index][i].length;j++){
+			respostas[j]=obj[index][i][j];
 		}
 	}
 	return respostas;
@@ -42,24 +25,37 @@ google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
  
 function drawChart() {
-	titulo = retornaTitulo("pergunta1");
-	respostasQuants = retornaRespostasQuants("pergunta1");
+	dados = $("#dados").val();
+	obj = eval(dados);
+	quant_perguntas = $("#quant_perguntas").val();
 
-	var dados=[];
-	dados[0]=['Resposta', 'Quantidade'];
-	for (i=0;i<respostasQuants.length;i++){
-		dados[i+1]=respostasQuants[i];
+	for (cont=0; cont<quant_perguntas; cont++){
+		pergunta_atual = 'pergunta' + (cont+1);
+
+		titulo = retornaTitulo(obj, cont);
+		respostasQuants = retornaRespostasQuants(obj, cont);
+
+		var resultado=[];
+		resultado[0]=['Resposta', 'Quantidade'];
+		for (i=0;i<respostasQuants.length;i++){
+			resultado[i+1]=respostasQuants[i];
+		}
+		
+		var data = google.visualization.arrayToDataTable(resultado);
+
+		var options = {
+			'title': titulo,
+			'is3D': true,
+			'titleTextStyle': {
+	        	'fontSize': 12
+	    	}
+		};
+
+		var chart = new google.visualization.PieChart(document.getElementById('div_'+pergunta_atual));
+
+		chart.draw(data, options);
+
 	}
-	
-	var data = google.visualization.arrayToDataTable(dados);
-
-	var options = {
-	  title: titulo
-	};
-
-	var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
-	chart.draw(data, options);
 }
 </script>
 
@@ -67,33 +63,20 @@ function drawChart() {
 
 <h3>Relatório estatístico</h3>
 <h4>{{ turma.curso }} - {{ turma }}</h4>
-<h5>{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }}
-	<br>{{ turma.no_vagas_preenchidas }} alunos
+<h5>{{ turma.imprime_hora_turma }} - {{ turma.imprime_data_turma }}<br>{{ turma.no_vagas_preenchidas }} alunos
 </h5>
 <br>
 
-Quant perguntas: {{quant_perguntas}}<br><br>
+<input type="hidden" value='{{quant_perguntas}}' id="quant_perguntas"></input>
 
-{{dados}}<br><br>
-
-<input type="button" onclick='retornaTitulo();' value="Teste"></input>
-
-<input type="text" value='{{dados}}' id="pergunta1"></input>
-
-<div id="piechart" style="width: 400px; height: 500px;"></div>
-
-<!--
 {% if dados %}
+	<input type="hidden" value='{{dados}}' id="dados"></input>
 	{% for pergunta in dados %}
-		{{ pergunta.0 }}<br>
-		{% for resposta in pergunta.1 %}
-			{{resposta}}<br>
-		{% endfor %}
-		<br>
+		<div id="div_pergunta{{forloop.counter}}" style="width: 390px; height: 250px;"></div>
 	{% endfor %}
 {% else %}
 	<p class="p_sem_dados">Sem respostas nesta turma.</p>
 {% endif %}
 <br>
--->
+
 </div>
