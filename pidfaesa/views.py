@@ -1,5 +1,3 @@
-#from __future__ import unicode_literals
-
 import string, random
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -322,16 +320,16 @@ def relatorio_turma(request, turma_id):
 	dados = list()
 	for p in pergunta_questionario:
 		a = list()
-		#a.append(str(p.ds_descricao))
-		a.append(str(random.choice(string.letters)))
+		a.append(str(p.ds_descricao))
+		#a.append(str(random.choice(string.letters)))
 		respostas = Resposta.objects.filter(pergunta__id=p.id).order_by('no_ordem')		
-		b = list()				
+		b = list()
 		for r in respostas:
 			c = list()
 			count = Alun_Resp_Perg_Ques.objects.filter(pergunta__id=p.id, resposta__id=r.id).count()
-			if count > 0:								
+			if count > 0:
+				c.append(r.ds_descricao)
 				c.append('Teste'+str(random.choice(string.letters)))
-				#c.append(r.ds_descricao)
 				c.append(count)
 				b.append(c)
 		a.append(b)
