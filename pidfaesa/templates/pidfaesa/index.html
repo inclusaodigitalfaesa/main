@@ -61,7 +61,7 @@ a{
 										<b>Turma: {{ turma.ds_nome }}</b><br>
 										<i>{{ turma.ds_descricao }}</i>
 									</td></tr>
-									<tr><td>De {{ turma.imprime_data_turma }} - {{ turma.imprime_hora_turma }}</td></tr>
+									<tr><td>De {{ turma.imprime_data_turma }} / {{ turma.imprime_hora_turma }}</td></tr>
 									<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/aluno">Clique aqui para fazer sua inscrição</a><i><br>(restam {{turma.no_vagas_restantes}} vagas)</i></td></tr>
 									<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/voluntario">Quero ser instrutor voluntário</a></td></tr>
 								</table>
