@@ -62,7 +62,17 @@ a{
 										<i>{{ turma.ds_descricao }}</i>
 									</td></tr>
 									<tr><td>De {{ turma.imprime_data_turma }} / {{ turma.imprime_hora_turma }}</td></tr>
-									<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/aluno">Clique aqui para fazer sua inscrição</a><i><br>(restam {{turma.no_vagas_restantes}} vagas)</i></td></tr>
+									<tr><td>
+									{% if turma.no_vagas_restantes <= 0 %}
+										{% if turma.no_vagas_restantes_com_extras <= 0 %}
+											<span style="color:red;">Vagas esgotadas!</span>
+										{% else %}
+											<a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/aluno" style="color:orange;">Vagas esgotadas! Clique aqui para fazer sua inscrição como suplente.</a><i><br>(restam {{turma.no_vagas_restantes_com_extras}} vagas suplentes)</i>
+										{% endif %}
+									{% else %}
+										<a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/aluno">Clique aqui para fazer sua inscrição</a><i><br>(restam {{turma.no_vagas_restantes}} vagas)</i>
+									{% endif %}
+									</td></tr>
 									<tr><td><a href="/curso/{{ curso.id }}/turma/{{ turma.id }}/inscricao/voluntario">Quero ser instrutor voluntário</a></td></tr>
 								</table>
 							</td></tr>							

@@ -97,6 +97,10 @@ class Turma(models.Model):
         qtde_alunos = Aluno.objects.filter(turma__id=self.id).count()
         return (self.no_vagas - qtde_alunos)
 
+    def no_vagas_restantes_com_extras(self):
+        qtde_alunos = Aluno.objects.filter(turma__id=self.id).count()
+        return (self.no_vagas + self.no_vagas_extras - qtde_alunos)
+
     def no_voluntarios(self):
         qtde_voluntarios = Voluntario.objects.filter(turma__id=self.id).count()
         return (qtde_voluntarios)
